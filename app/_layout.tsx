@@ -14,9 +14,14 @@ export {
 
 export const unstable_settings = {
   initialRouteName: "index",
+  main: {
+    initialRouteName: "index"
+  }
 };
 
 export default function RootLayout() {
+  ExpoSplashScreen.preventAutoHideAsync();
+  
   const [loaded, error] = useFonts({
     'FlorencesansSC': require("../assets/fonts/FlorencesansSC.ttf"),
     ...FontAwesome.font,
@@ -28,14 +33,10 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded || error) {
+    if (loaded) {
       ExpoSplashScreen.hideAsync();
     }
-  }, [loaded, error]);
-
-  if (!loaded && !error) {
-    return null;
-  }
+  }, [loaded]);
 
   return <RootLayoutNav />;
 }

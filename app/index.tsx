@@ -1,10 +1,21 @@
 import { FlorenceText } from "@/components/FlorenceText";
 import { theme } from "@/constants/Colors";
+import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useRef, useState } from "react";
-import { Text, SafeAreaView, View, ImageBackground } from "react-native";
+import { StatusBar as RNStatusBar, View, ImageBackground, Dimensions, TouchableOpacity, FlatList } from "react-native";
 
-const slides = [
+interface ISlide {
+    id: string;
+    image: any;
+    title: string;
+    backgroundCover: string;
+}
+
+const {width, height} = Dimensions.get('window');
+// @ts-ignore
+const statusBarHeight: number = RNStatusBar?.currentHeight;
+const slides: ISlide[] = [
     {
         id: '1',
         image: require('../assets/images/onboarding/onboarding-1.png'),
@@ -24,48 +35,83 @@ const slides = [
         backgroundCover: '#0000004D'
     }
 ]
-const Slide = () => {
+const Slide = ({item}: {item: ISlide}) => {
     return (
-        <ImageBackground source={slides[1].image} imageStyle={{overlayColor: slides[1].backgroundCover, backgroundColor: slides[1].backgroundCover,}} style={{flex: 1}}>
-            <View style={{flex: 1, backgroundColor: slides[1].backgroundCover, justifyContent: 'space-between', paddingTop: 96, paddingBottom: 36 }}>
-                <View>
-                    <FlorenceText>{slides[0].title}</FlorenceText>
-                </View>
-                <View style={{gap: 30, alignItems: 'center'}}>
-                    <View style={{flexDirection: 'row', gap: 8}}>
-                        <View style={{width: 25, height: 12, backgroundColor: theme.secondary, borderRadius: 12}}></View>
-                        <View style={{width: 12, height: 12, backgroundColor: theme.white, borderRadius: 12}}></View>
-                        <View style={{width: 12, height: 12, backgroundColor: theme.white, borderRadius: 12}}></View>
-                    </View>
-                    <FlorenceText size={'sm'}>Skip</FlorenceText>
+        <ImageBackground source={item.image} imageStyle={{overlayColor: item.backgroundCover, backgroundColor: item.backgroundCover }} style={{flex: 1, position: 'relative', width}}>
+            <View style={{flex: 1, backgroundColor: item.backgroundCover, justifyContent: 'space-between', paddingTop: 96, paddingBottom: 36,  }}>
+                <View style={{flex: 1, alignSelf: "center", maxWidth: '80%', }}>
+                    <FlorenceText>{item.title}</FlorenceText>
                 </View>
             </View>
         </ImageBackground>
     )
 }
-export default function Onboarding ({navigation}) {
+
+export default function Onboarding () {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const ref = useRef();
-    const updateCurrentSlide = (e: { nativeEvent: { contentOffset: { x: any; }; }; }) => {
+    const updateCurrentSlideIndex = (e: { nativeEvent: { contentOffset: { x: number; }; }; }) => {
         const contentOffsetX = e.nativeEvent.contentOffset.x;
         const currentIndex = Math.round(contentOffsetX)
+        setCurrentSlideIndex(currentIndex);
     }
-    return (
-        <ImageBackground source={slides[1].image} imageStyle={{overlayColor: slides[1].backgroundCover, backgroundColor: slides[1].backgroundCover,}} style={{flex: 1}}>
-            <View style={{flex: 1, backgroundColor: slides[1].backgroundCover, justifyContent: 'space-between', paddingTop: 96, paddingBottom: 36 }}>
-                <View>
-                    <FlorenceText style={{fontFamily: 'SpaceMono-Regular'}}>{slides[0].title}</FlorenceText>
+    
+    const goToSlideIndex = (slideIndex: number) => {
+        if(slideIndex !== slides.length ){
+            const offset = slideIndex * width;
+            //@ts-ignore
+            ref?.current.scrollToOffset({offset});
+            setCurrentSlideIndex(currentSlideIndex + 1)
+        }
+    }
+    const handlePressSkip = () => {
+        const lastSlideIndex = slides.length - 1;
+        const offset = lastSlideIndex * width;
+        //@ts-ignore
+        ref?.current.scrollToOffset({offset});
+        setCurrentSlideIndex(lastSlideIndex)
+    }
+    
+    const Footer = () => {
+        const currentSlide = Math.round(currentSlideIndex / width);
+    
+        return (
+            <View style={{gap: 30, alignItems: 'center', position: 'absolute', bottom: 36, alignSelf: 'center'}}>
+                <View style={{flexDirection: 'row', gap: 8}}>
+                    {slides.map((_, index)=> (
+                        <TouchableOpacity key={index} onPress={()=> goToSlideIndex(index)}>
+                            <View style={[ currentSlide === index ? {width: 25, backgroundColor: theme.secondary } : {width: 12, backgroundColor: theme.white}, {borderRadius: 12, height: 12}]}></View>
+                        </TouchableOpacity>
+                    ))}
                 </View>
-                <View style={{gap: 30, alignItems: 'center'}}>
-                    <View style={{flexDirection: 'row', gap: 8}}>
-                        <View style={{width: 25, height: 12, backgroundColor: theme.secondary, borderRadius: 12}}></View>
-                        <View style={{width: 12, height: 12, backgroundColor: theme.white, borderRadius: 12}}></View>
-                        <View style={{width: 12, height: 12, backgroundColor: theme.white, borderRadius: 12}}></View>
-                    </View>
-                    <FlorenceText size={'sm'}>Skip</FlorenceText>
-                </View>
+                {currentSlide === slides.length - 1 ?
+                (<Link href={'/main'} style={{flex: 1, width: '100%', textDecorationLine: 'underline', textDecorationStyle: 'solid'}}>
+                        <FlorenceText size={'sm'} style={{textDecorationLine: 'underline', textDecorationStyle: 'solid'}}>Get Started</FlorenceText>
+                </Link>):
+                (<TouchableOpacity onPress={handlePressSkip}>
+                    <FlorenceText size={'sm'} style={{textDecorationLine: 'underline', textDecorationStyle: 'solid'}}>Skip</FlorenceText>
+                </TouchableOpacity>)
+                }
             </View>
+        )
+    }
+
+    return (
+        <View style={{flex: 1}}>
             <StatusBar style="auto" />
-        </ImageBackground>
+            <FlatList 
+                //@ts-ignore
+                ref={ref}
+                onMomentumScrollEnd={updateCurrentSlideIndex}
+                contentContainerStyle={{height: height + statusBarHeight }}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={slides}
+                pagingEnabled
+                renderItem={({item}) => <Slide item={item} />}
+                keyExtractor={(item) => item.id}
+            />
+            <Footer />
+        </View>
     )
 }
