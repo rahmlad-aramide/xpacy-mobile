@@ -1,0 +1,35 @@
+{
+  "build": {
+    "development": {
+      "android": {
+        "buildType": "apk"
+      },
+      "environment": "development",
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "environment": "preview",
+      "distribution": "internal"
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "environment": "preview"
+    },
+    "preview3": {
+      "developmentClient": true,
+      "environment": "preview"
+    },
+    "production": {
+      "environment": "production"
+    },
+    "my-profile": {
+      "environment": "production"
+  }
+  }
+}
