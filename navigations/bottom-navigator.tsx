@@ -4,9 +4,10 @@ import { useTheme } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native';
 import Home from '../screens/Main/Home';
 import Search from '../screens/Main/Search';
+import { HomeTabParamList } from '@/types';
 
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 
 const BottomNavigator = () => {
@@ -20,7 +21,7 @@ const BottomNavigator = () => {
                 screenOptions={{
                     headerShown: false,
                 }}
-
+                initialRouteName='Home'
                 // tabBar={props => <BottomTab {...props} />}
             >
                 <Tab.Screen name="Home" component={Home} />

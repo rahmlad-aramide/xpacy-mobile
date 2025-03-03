@@ -94,7 +94,7 @@ export default function Onboarding({
     }
   };
   const handlePressSkip = () => {
-    navigation.navigate("Login");
+    navigation.navigate("SignUp");
     //TODO: Remove this comment below >
     // const lastSlideIndex = slides.length - 1;
     // const offset = lastSlideIndex * width;
@@ -146,7 +146,7 @@ export default function Onboarding({
 
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar style="light" />
+      <StatusBar style="light" backgroundColor="transparent" />
       <FlatList
         //@ts-ignore
         ref={ref}

@@ -1,8 +1,11 @@
 // AuthContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import axios from 'axios';
 import { AppState, AppStateStatus } from 'react-native';
+import { IUserData } from '@/types';
+import { fetchUserData } from '@/utils/endpoints';
+import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 type LoginFunction = (token: string, username: string, password: string, rememberMe: boolean) => Promise<void>;
 interface AuthContextType {
@@ -12,14 +15,18 @@ interface AuthContextType {
     handleLogout: () => Promise<void>;
     hasCompletedOnboarding: boolean;
     handleOnboardingComplete: () => Promise<void>;
+    userData: IUserData | null;
   }
   
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+  const [userData, setUserData] = useState<IUserData|null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean>(false);
+  const [expirationTime, setExpirationTime] = useState<number | null>(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const checkAuthAndOnboarding = async () => {
@@ -28,32 +35,28 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
           const onboardingStatus = await AsyncStorage.getItem('onboardingCompleted');
           setHasCompletedOnboarding(onboardingStatus === 'true');
       
-          if (tokenData) {
-            const { token } = JSON.parse(tokenData);
-      
+          if (tokenData) { 
             try {
-              // const response = await axios.get('YOUR_API_ENDPOINT', { 
-              //   headers: {
-              //     Authorization: `Bearer ${token}`,
-              //   },
-              // });
+              const response = await fetchUserData()
+              console.log('fetchUser Res', response)      
+              const data = response; 
       
-              // const data = response.data; 
-              // TODO Fix the axios issue
-              let data: any = {}; 
-      
-              if (data.success === false && data.expired === true) {
+              if (data.success === false || data.expired === true || data.error === 'Invalid token.') {
                 await AsyncStorage.removeItem('tokenData');
                 setIsSignedIn(false);
+                setExpirationTime(null);
               } else {
                 setIsSignedIn(true);
+                setUserData(data.user);
+                setExpirationTime(Date.now() + 3600000);
               }
             } catch (axiosError: any) { 
               if (axiosError.response && axiosError.response.data) {
                 const data = axiosError.response.data;
-                if (data.success === false && data.expired === true) {
+                if (data.success === false || data.expired === true || data.error === 'Invalid token.') {
                   await AsyncStorage.removeItem('tokenData');
                   setIsSignedIn(false);
+                  setExpirationTime(null);
                 } else {
                   setIsSignedIn(false);
                 }
@@ -63,10 +66,12 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
             }
           } else {
             setIsSignedIn(false);
+            setExpirationTime(null);
           }
         } catch (error) {
           console.error('Error checking auth:', error);
           setIsSignedIn(false);
+          setExpirationTime(null);
         } finally {
           setIsLoading(false);
         }
@@ -88,6 +93,24 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
         subscription.remove();
       };
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+        if (expirationTime && Date.now() > expirationTime) {
+            // Token has expired
+            setIsSignedIn(false);
+            setUserData(null);
+            AsyncStorage.removeItem('tokenData');
+            setExpirationTime(null);
+            Alert.alert("Session Timed Out.", "Your session has expired. Please log in again.");
+            //TODO: look into the ignored error below.
+            // @ts-ignore
+            navigation.navigate('Login')
+        }
+    }, 60000);
+
+    return () => clearInterval(timer);
+}, [expirationTime]);
 
   const handleLogin: LoginFunction = async (token, username, password, rememberMe) => {
     try {
@@ -132,6 +155,7 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
         handleLogout,
         hasCompletedOnboarding,
         handleOnboardingComplete,
+        userData
       }}
     >
       {children}

@@ -3,6 +3,7 @@ import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { FONTS } from '../../constants/theme';
+import { COLORS } from '@/constants/Colors';
 
 const CustomInput = (props: any) => {
 
@@ -10,6 +11,7 @@ const CustomInput = (props: any) => {
     const { colors } = theme;
 
     const [passwordShow, setPasswordShow] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
 
     const handndleShowPassword = () => {
         setPasswordShow(!passwordShow);
@@ -25,8 +27,6 @@ const CustomInput = (props: any) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     zIndex: 1,
-
-                    //top:16,
                 }}>
                     {props.icon && props.icon}
                 </View>
@@ -34,11 +34,11 @@ const CustomInput = (props: any) => {
                     secureTextEntry={props.type === "password" ? passwordShow : false}
                     style={[{
                         ...FONTS.font,
-                        fontSize: 14,
+                        fontSize: 16,
                         height: 48,
                         borderWidth: 1,
-                        color: '#333333',
-                        borderColor:props.background ? colors.background : '#C7D9E5',
+                        color: '#585858',
+                        borderColor: props.background ? colors.background : props.errorText ? '#FF0000' : isFocused ? COLORS.primary : '#C7D9E5',
                         paddingVertical: 5,
                         backgroundColor:props.background ? colors.background : '#FCFEFF',
                         paddingHorizontal: 16,
@@ -66,6 +66,8 @@ const CustomInput = (props: any) => {
                     multiline={props.inputLg}
                     keyboardType={props.keyboardType}
                     editable={props.editable}
+                    onFocus={()=>setIsFocused(true)}
+                    onBlur={()=>setIsFocused(false)}
                 />
                 {props.type === "password" &&
                     <TouchableOpacity
