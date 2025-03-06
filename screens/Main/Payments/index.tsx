@@ -1,10 +1,10 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-function Search() {
+function Payments() {
   return (
-    <View><Text>Search</Text></View>
+    <View><Text>Payments</Text></View>
   )
 }
 
-export default Search
+export default Payments

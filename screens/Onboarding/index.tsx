@@ -63,7 +63,12 @@ const Slide = ({ item }: { item: ISlide }) => {
         }}
       >
         <View style={{ flex: 1, alignSelf: "center", maxWidth: "80%" }}>
-          <FlorenceText fontWeight="bold">{item.title}</FlorenceText>
+          <FlorenceText
+            style={{ color: "white", textAlign: "center" }}
+            fontWeight="bold"
+          >
+            {item.title}
+          </FlorenceText>
         </View>
       </View>
     </ImageBackground>

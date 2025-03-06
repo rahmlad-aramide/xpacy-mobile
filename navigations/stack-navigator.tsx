@@ -24,6 +24,7 @@ const StackNavigator = () => {
       />
       <StackComponent.Navigator
         initialRouteName={hasCompletedOnboarding ? "Login" : "Onboarding" }
+        // initialRouteName={hasCompletedOnboarding ? "Login" : "BottomNavigator" }
         screenOptions={{
           headerShown: false,
         }}

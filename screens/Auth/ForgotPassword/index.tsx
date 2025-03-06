@@ -9,12 +9,12 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ForgotPasswordProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'ForgotPassword'>;

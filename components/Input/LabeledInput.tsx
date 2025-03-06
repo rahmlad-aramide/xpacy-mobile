@@ -41,7 +41,7 @@ const LabeledInput = ({
       />
       {errorText && (
         <Text className="mt-1 text-xs font-unitext text-red-500">
-          {errorText}
+          * {errorText}
         </Text>
       )}
     </View>

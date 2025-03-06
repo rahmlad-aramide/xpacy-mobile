@@ -27,14 +27,14 @@ const LocationsDropdown: React.FC<Omit<DropdownComponentProps, "data">> = ({
     // getLocations();
   },[])
   return (
-    <View>
+    <View className="mb-6">
       <Text className="mb-2 text-base-black text-sm font-unitext">
         Choose your location {<Text className="text-red-500">*</Text>}
       </Text>
       <DropdownComponent value={value} setValue={setValue} data={data} placeholder="Choose a location" errorText={errorText} />
       {errorText && (
         <Text className="mt-1 text-xs font-unitext text-red-500">
-          {errorText}
+          * {errorText}
         </Text>
       )}
     </View>

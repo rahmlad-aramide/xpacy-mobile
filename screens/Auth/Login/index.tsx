@@ -3,7 +3,6 @@ import LabeledInput from "@/components/Input/LabeledInput";
 import RadioButton from "@/components/Input/RadioButton";
 import { FONTS, IMAGES } from "@/constants/theme";
 import { RootStackParamList } from "@/types";
-import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Checkbox from "expo-checkbox";
 import { StatusBar } from "expo-status-bar";
@@ -12,12 +11,12 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface LoginProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
@@ -107,7 +106,7 @@ function Login({navigation}: LoginProps) {
             <View className="flex gap-6">
               <Button title="Log In" onPress={()=>{navigation.navigate('BottomNavigator')}}/>
                 {/* TODO: Change the Sign Up font to bold */}
-              <TouchableOpacity onPress={()=>navigation.replace('SignUp')}><Text className="font-unitext text-base-black">Don't have an account? <Text className="text-primary">Sign Up</Text></Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>navigation.replace('SignUp')}><Text className="font-unitext text-base-black">Don't have an account? <Text className="text-primary underline">Sign Up</Text></Text></TouchableOpacity>
             </View>
           </View>
         </ScrollView>

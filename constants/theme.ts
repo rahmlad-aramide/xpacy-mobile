@@ -74,6 +74,10 @@ export const IMAGES = {
   onbaording3: require('../assets/images/onboarding/onboarding-3.png'),
   logo: require('../assets/images/logo.png'),
   logo2: require('../assets/images/logo2.png'),
+  user: require('../assets/images/home/user.png'),
+  featured: require('../assets/images/home/featured.png'),
+  latest: require('../assets/images/home/latest.png'),
+  empty: require('../assets/images/empty.png'),
 };
 
 export const ICONS = {

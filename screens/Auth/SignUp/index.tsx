@@ -1,6 +1,5 @@
 import Button from "@/components/Button/Button";
 import LabeledInput from "@/components/Input/LabeledInput";
-import RadioButton from "@/components/Input/RadioButton";
 import LocationsDropdown from "@/components/LocationsDropdown";
 import { FONTS, IMAGES } from "@/constants/theme";
 import { ISignUpCredentials, RootStackParamList } from "@/types";
@@ -13,12 +12,12 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface LoginProps {
   navigation: NativeStackNavigationProp<RootStackParamList, "Login">;
@@ -98,7 +97,7 @@ function SignUp({ navigation }: LoginProps) {
     }
 
     if (!privacyPolicy) {
-      setPrivacyPolicyError('You need to read and agree to the privacy policy.');
+      setPrivacyPolicyError('* To continue, pls read and agree to our terms and condition and privacy policy.');
       isValid = false;
     }
 
@@ -201,7 +200,7 @@ function SignUp({ navigation }: LoginProps) {
                   onChangeText={setReferralCode}
                   required={false}
                 />
-                <View className="flex flex-row items-center gap-2 mt-6">
+                <View className="flex flex-row items-center gap-2">
                   <Checkbox
                     value={privacyPolicy}
                     onValueChange={handleCheckBoxToggle}
@@ -209,16 +208,16 @@ function SignUp({ navigation }: LoginProps) {
                   />
                   <Text
                     className="text-base-black font-unitext text-sm"
-                    onPress={() => handleCheckBoxToggle()}
+                    onPress={handleCheckBoxToggle}
                   >
                     I agree to Xpacy's Terms & Conditions and Privacy Policy.
                   </Text>
                 </View>
                 {privacyPolicyError && (
-                <Text className="mt-1 text-xs font-unitext text-red-500">
-                  {privacyPolicyError}
-                </Text>
-              )}
+                  <Text className="mt-1 text-xs font-unitext text-red-500">
+                    {privacyPolicyError}
+                  </Text>
+                )}
               </View>
             </View>
             <View className="flex gap-6">
@@ -230,7 +229,7 @@ function SignUp({ navigation }: LoginProps) {
               <TouchableOpacity onPress={() => navigation.replace('Login')}>
                 <Text className="font-unitext text-base-black">
                   Already have an account?{" "}
-                  <Text className="text-primary">Log In</Text>
+                  <Text className="text-primary underline">Log In</Text>
                 </Text>
               </TouchableOpacity>
             </View>
