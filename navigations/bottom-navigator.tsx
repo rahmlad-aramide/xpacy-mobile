@@ -26,7 +26,6 @@ const BottomNavigator = () => {
                 }}
                 initialRouteName='Home'
                 tabBar={props => <MyTabBar {...props} />}
-                
             >
                 <Tab.Screen name="Home" component={Home} />
                 <Tab.Screen name="Search" component={Search} />

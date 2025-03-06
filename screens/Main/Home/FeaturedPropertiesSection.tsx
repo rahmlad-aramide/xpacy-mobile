@@ -106,7 +106,7 @@ export const FeaturedPropertiesSection = () => {
             {item.detail}
           </Text>
           <View className="flex flex-row items-center gap-1">
-            <MapMarkerSVG />{" "}
+            <MapMarkerSVG />
             <Text className="font-unitext text-neutral-900" numberOfLines={1}>
               {item.location}
             </Text>

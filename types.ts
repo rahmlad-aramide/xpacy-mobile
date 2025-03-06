@@ -64,3 +64,14 @@ export interface IUserResponse {
   expired?: boolean;
   error?: string;
 }
+
+export interface ICardData {
+  id: number;
+  image: any;
+  category: string;
+  detail: string;
+  location: string;
+  price: string;
+  beds: number;
+  baths: number;
+}
