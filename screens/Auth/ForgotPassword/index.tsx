@@ -1,5 +1,7 @@
+import { BackArrowSVG } from "@/assets/svgs";
 import Button from "@/components/Button/Button";
 import LabeledInput from "@/components/Input/LabeledInput";
+import { UnitextBold } from "@/components/Unitext";
 import { FONTS, IMAGES } from "@/constants/theme";
 import { RootStackParamList } from "@/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -49,9 +51,10 @@ function ForgotPassword({navigation}: ForgotPasswordProps) {
               </View>
               <View className="flex gap-6">
                 <Button title="Send Reset Link" onPress={()=>{console.log('send link pqressed')}} />
-                  <TouchableOpacity onPress={()=>navigation.goBack()}>
+                  <TouchableOpacity onPress={()=>navigation.goBack()} className="h-6 items-center flex-row">
+                    <BackArrowSVG /> 
                     <Text className="font-unitext text-primary">
-                      Back to Login
+                      Back to <UnitextBold>Login</UnitextBold> 
                     </Text>
                   </TouchableOpacity>
               </View>

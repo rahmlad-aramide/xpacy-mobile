@@ -2,7 +2,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppState, AppStateStatus } from 'react-native';
-import { IUserData } from '@/types';
+import { IUserData, LoginNavigationProp, RootStackParamList } from '@/types';
 import { fetchUserData } from '@/utils/endpoints';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean>(false);
   const [expirationTime, setExpirationTime] = useState<number | null>(null);
-  const navigation = useNavigation();
+  const navigation = useNavigation<LoginNavigationProp>();
 
   useEffect(() => {
     const checkAuthAndOnboarding = async () => {
@@ -104,7 +104,6 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
             setExpirationTime(null);
             Alert.alert("Session Timed Out.", "Your session has expired. Please log in again.");
             //TODO: look into the ignored error below.
-            // @ts-ignore
             navigation.navigate('Login')
         }
     }, 60000);

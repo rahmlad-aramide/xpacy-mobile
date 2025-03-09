@@ -1,6 +1,7 @@
 import Button from "@/components/Button/Button";
 import LabeledInput from "@/components/Input/LabeledInput";
 import LocationsDropdown from "@/components/LocationsDropdown";
+import { UnitextBold } from "@/components/Unitext";
 import { FONTS, IMAGES } from "@/constants/theme";
 import { ISignUpCredentials, RootStackParamList } from "@/types";
 import { registerUser } from "@/utils/endpoints";
@@ -225,11 +226,10 @@ function SignUp({ navigation }: LoginProps) {
                 title="Sign Up"
                 onPress={handleSignUp}
               />
-              {/* TODO: Change the Sign Up font to bold */}
               <TouchableOpacity onPress={() => navigation.replace('Login')}>
                 <Text className="font-unitext text-base-black">
                   Already have an account?{" "}
-                  <Text className="text-primary underline">Log In</Text>
+                  <UnitextBold className="text-primary underline">Log In</UnitextBold>
                 </Text>
               </TouchableOpacity>
             </View>

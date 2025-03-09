@@ -82,9 +82,8 @@ export const FeaturedPropertiesSection = () => {
         className="h-[280px] w-full border border-neutral-200 rounded-t-lg p-4"
       >
         <View className="flex flex-row justify-between items-start">
-          {/* TODO: Change the font below to bold */}
           <View className="bg-primary rounded-full px-4 py-2">
-            <Text className="font-unitext text-white text-sm leading-4">
+            <Text style={{fontFamily: 'Unitext-Bold'}} className="font-unitextBold text-white text-sm leading-4">
               {item.type}
             </Text>
           </View>

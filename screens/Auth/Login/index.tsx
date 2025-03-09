@@ -1,6 +1,7 @@
 import Button from "@/components/Button/Button";
 import LabeledInput from "@/components/Input/LabeledInput";
 import RadioButton from "@/components/Input/RadioButton";
+import { UnitextBold } from "@/components/Unitext";
 import { FONTS, IMAGES } from "@/constants/theme";
 import { RootStackParamList } from "@/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -26,6 +27,7 @@ function Login({navigation}: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [accountType, setAccountType] = useState('User');
   // Error states
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -100,13 +102,12 @@ function Login({navigation}: LoginProps) {
                 <Text className="mb-2 text-base-black text-sm font-unitext">
                   Account type
                 </Text>
-                <RadioButton options={['User', 'Property Owner']} />
+                <RadioButton selectedOption={accountType} setSelectedOption={setAccountType} options={['User', 'Property Owner']} />
               </View>
             </View>
             <View className="flex gap-6">
               <Button title="Log In" onPress={()=>{navigation.navigate('BottomNavigator')}}/>
-                {/* TODO: Change the Sign Up font to bold */}
-              <TouchableOpacity onPress={()=>navigation.replace('SignUp')}><Text className="font-unitext text-base-black">Don't have an account? <Text className="text-primary underline">Sign Up</Text></Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>navigation.replace('SignUp')}><Text className="font-unitext text-base-black">Don't have an account? <UnitextBold className="text-primary underline">Sign Up</UnitextBold></Text></TouchableOpacity>
             </View>
           </View>
         </ScrollView>

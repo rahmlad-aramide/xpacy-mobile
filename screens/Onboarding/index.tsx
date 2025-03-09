@@ -139,7 +139,7 @@ export default function Onboarding({
           <Text
             className="text-white underline"
             style={{
-              fontFamily: "Unitext-Regular",
+              fontFamily: "Unitext-Bold",
             }}
           >
             {currentSlide === slides.length - 1 ? "Get Started" : "Skip"}

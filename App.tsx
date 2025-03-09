@@ -10,13 +10,16 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import StackNavigator from './navigations/stack-navigator';
 import { AuthProvider } from './contexts/AuthContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 
 export default function RootLayout() {
   ExpoSplashScreen.preventAutoHideAsync();
   
   const [loaded, error] = useFonts({
     'Unitext-Regular': require("./assets/fonts/Unitext-Regular.ttf"),
+    'Unitext-Bold': require("./assets/fonts/Unitext-Bold.ttf"),
     'FlorencesansSC': require("./assets/fonts/FlorencesansSC.ttf"),
+    'FlorencesansSC-Regular': require("./assets/fonts/FlorencesansSC-Regular.ttf"),
     'FlorencesansSC-Exp': require("./assets/fonts/FlorencesansSC-Exp.ttf"),
     'FlorencesansSC-Bold': require("./assets/fonts/FlorencesansSC-Bold.ttf"),
     'FlorencesansSC-Exp-Bold': require("./assets/fonts/FlorencesansSC-Exp-Bold.ttf"),
@@ -49,7 +52,9 @@ function RootLayoutNav() {
     <NavigationContainer>
       <SafeAreaProvider>
         <AuthProvider>
-          <StackNavigator />
+          <NotificationProvider>
+            <StackNavigator />
+          </NotificationProvider>
         </AuthProvider>
       </SafeAreaProvider>
     </NavigationContainer>

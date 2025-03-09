@@ -1,19 +1,39 @@
 // NavigationTypes.ts
 import { ParamListBase } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Dispatch, SetStateAction } from 'react';
 
+export type TPlatform = 'gmail'|'facebook'|'instagram'|'tiktok'|'x';
+export type TActiveNotificationSheet = 'sort'|'filter';
 export interface HomeTabParamList extends ParamListBase {
   Home: undefined;
-  Search: undefined;
+  Search: {id: string};
 }
+export type ReferralNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Referral'
+>;
+export type LoginNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Login'
+>;
+export type SearchNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Search'
+>;
+export type NotificationNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Notifications'
+>;
 
 export interface RootStackParamList extends ParamListBase {
-    Onboarding: undefined;
+  Onboarding: undefined;
   Login: undefined;
   ForgotPassword: undefined;
   SignUp: undefined;
   Profile: { userId: string };
   HomeTabs: undefined;
+  Refferral: undefined;
 }
 
 export interface DropdownComponentDataProps {
@@ -74,4 +94,24 @@ export interface ICardData {
   price: string;
   beds: number;
   baths: number;
+}
+
+export interface IReferredUser {
+  id?: number;
+  name: string;
+  email: string;
+  dateJoined: string;
+}
+
+export interface INotification {
+  id: string;
+  title: string;
+  body: string;
+  date: string;
+}
+
+export interface INotificationItemProps {
+  item: INotification;
+  deletingId: string | null;
+  setDeleting: (id: string | null) => void;
 }

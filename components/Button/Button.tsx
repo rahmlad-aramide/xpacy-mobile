@@ -101,8 +101,8 @@ const Button = ({
       <Text
         style={[
           {
-            ...FONTS.font,
-            fontSize: 18,
+            ...FONTS.fontUniBold,
+            fontSize: 16,
             textAlign: "center",
             color: text
               ? 'white'
@@ -115,7 +115,8 @@ const Button = ({
             fontSize: 18,
           },
           outline && {
-            ...FONTS.font,
+            ...FONTS.fontUniBold,
+            color: COLORS.primary
           },
         ]}
       >

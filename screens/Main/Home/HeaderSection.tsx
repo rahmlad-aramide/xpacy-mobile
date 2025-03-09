@@ -4,6 +4,8 @@ import { FlorenceText } from "@/components/FlorenceText";
 import { COLORS } from "@/constants/Colors";
 import { IMAGES } from "@/constants/theme";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { HomeSearchInput } from "../Search/SearchInput";
+import { NotificationButton } from "@/components/NotificationButton";
 
 export const HeaderSection = () => {
   return (
@@ -22,12 +24,7 @@ export const HeaderSection = () => {
           </FlorenceText>
         </View>
         <View className="flex flex-row gap-1 w-28">
-          <TouchableOpacity>
-            <View className="h-12 w-12 rounded-full flex items-center justify-center border border-primary-200 relative">
-              <Badge value={9} />
-              <NotificaitionSVG />
-            </View>
-          </TouchableOpacity>
+          <NotificationButton />
           <TouchableOpacity>
             <View className="h-12 w-12 rounded-full flex items-center justify-center border border-primary-200 relative">
                 <UserPlaceholderSVG />
@@ -41,13 +38,7 @@ export const HeaderSection = () => {
         </View>
       </View>
       <View>
-        <TouchableOpacity className="bg-neutral-100 h-10 flex justify-center px-2 rounded-lg">
-          <View>
-            <Text className="font-unitext text-base" numberOfLines={1}>
-              Search for properties
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <HomeSearchInput />
       </View>
     </View>
   );

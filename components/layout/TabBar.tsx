@@ -61,8 +61,7 @@ export default function MyTabBar({ state, descriptors, navigation }: MyTabBarPro
                     {icon}
                 </View>
                 <View>
-                    {/* TODO: Change active label weight to bold */}
-                    <Text style={{ color: isFocused ? '#203645' : '#585858', fontFamily: 'Unitext-Regular', textAlign: 'center' }}>
+                    <Text style={isFocused? { color: '#203645', fontFamily: 'Unitext-Bold', textAlign: 'center' } : { color: '#585858', fontFamily: 'Unitext-Regular', textAlign: 'center' }}>
                         {label}
                     </Text>
                 </View>

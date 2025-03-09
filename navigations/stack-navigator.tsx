@@ -6,8 +6,10 @@ import Onboarding from "../screens/Onboarding";
 import Login from "../screens/Auth/Login";
 import BottomNavigator from "./bottom-navigator";
 import ForgotPassword from "@/screens/Auth/ForgotPassword";
-import { RootStackParamList } from "@/types";
 import SignUp from "@/screens/Auth/SignUp";
+import { RootStackParamList } from "@/types";
+import Referral from "@/screens/Main/Referral";
+import Notifications from "@/screens/Main/Notifications";
 
 
 
@@ -23,8 +25,8 @@ const StackNavigator = () => {
         barStyle={"dark-content"}
       />
       <StackComponent.Navigator
-        initialRouteName={hasCompletedOnboarding ? "Login" : "Onboarding" }
-        // initialRouteName={hasCompletedOnboarding ? "Login" : "BottomNavigator" }
+        // initialRouteName={hasCompletedOnboarding ? "Login" : "Onboarding" }
+        initialRouteName={hasCompletedOnboarding ? "Login" : "BottomNavigator" }
         screenOptions={{
           headerShown: false,
         }}
@@ -33,6 +35,8 @@ const StackNavigator = () => {
         <StackComponent.Screen name={"ForgotPassword"} component={ForgotPassword} />
         <StackComponent.Screen name={"Login"} component={Login} />
         <StackComponent.Screen name={"SignUp"} component={SignUp} />
+        <StackComponent.Screen name={"Referral"} component={Referral} />
+        <StackComponent.Screen name={"Notifications"} component={Notifications} />
         <StackComponent.Screen
           name={"BottomNavigator"}
           component={BottomNavigator}
